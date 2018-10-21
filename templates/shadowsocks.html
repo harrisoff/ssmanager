@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="../static/shadowsocks/img/ss-logo-32.ico" rel="shortcut icon">
+    <link href="../static/shadowsocks/img/touch-icon-114-80.png" rel="apple-touch-icon">
+    <link href="../static/shadowsocks/css/index.min.css" rel="stylesheet"/>
+    <link href="../static/shadowsocks/css/weui.min.css" rel="stylesheet"/>
+    <title>ShadowSocks Manager</title>
+</head>
+<body>
+<div class="weui-navbar">
+    <div class="weui-navbar__item weui-bar__item_on" data-id="page1">状态</div>
+    <div class="weui-navbar__item" data-id="page2">添加</div>
+    <div class="weui-navbar__item" data-id="page3">删除</div>
+</div>
+<div class="pages">
+    <div class="page1" id="page1">
+        <div class="navbar-fix"></div>
+        <div class="pg-content" id="status-container" style="display: none;">
+            <div class="status-icon">
+                <div class="icon-container">
+                    <i class="weui-icon_msg" id="status-icon"></i>
+                </div>
+                <div class="status-msg">
+                    <p id="status-msg">加载中</p>
+                    <!--running-->
+                </div>
+            </div>
+            <div class="status-btn">
+                <a href="javascript:;" class="weui-btn" id="ss-start" style="text-decoration: none">启动</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="page1" id="page2" style="display: none;">
+        <div class="navbar-fix"></div>
+        <div class="pg-content">
+            <div class="add-tips">
+                添加新端口
+            </div>
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">端口号</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="number" pattern="[0-9]*" id="port"
+                               placeholder="整数"/>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">密码</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" id="pswd" placeholder="数字和字母"/>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">授权码</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" id="add-auth" placeholder="授权码"/>
+                    </div>
+                </div>
+            </div>
+            <div class="add-btn-con">
+                <a href="javascript:;" class="weui-btn weui-btn_primary" id="add" style="text-decoration: none">添加</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="page1" id="page3" style="display: none;">
+        <div class="navbar-fix"></div>
+        <div class="pg-content">
+            <div class="add-tips">
+                点击删除现有端口
+            </div>
+            <div class="weui-cells" id="ports-list">
+                <a class="weui-cell weui-cell_access" data-port="54444" href="javascript:;"
+                   style="text-decoration: none">
+                    <div class="weui-cell__bd">
+                        <p>54444</p>
+                    </div>
+                    <div class="weui-cell__ft delete-d">password</div>
+                </a>
+
+                <a class="weui-cell weui-cell_access" data-port="55555" href="javascript:;"
+                   style="text-decoration: none">
+                    <div class="weui-cell__bd port">
+                        <p>55555</p>
+                    </div>
+                    <div class="weui-cell__ft delete-d">passw0rd</div>
+                </a>
+            </div>
+            <div class="del-tips"></div>
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">授权码</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" id="del-auth" placeholder="授权码"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="loadingToast" style="display: none;">
+    <div class="weui-mask_transparent"></div>
+    <div class="weui-toast">
+        <i class="weui-loading weui-icon_toast"></i>
+        <p class="weui-toast__content">加载中</p>
+    </div>
+</div>
+
+<div class="js_dialog" id="iosDialog1" style="display: none;">
+    <div class="weui-mask"></div>
+    <div class="weui-dialog">
+        <div class="weui-dialog__hd"><strong class="weui-dialog__title">确认</strong></div>
+        <div class="weui-dialog__bd" id="dialog-msg"></div>
+        <div class="weui-dialog__ft">
+            <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" id="cancel"
+               style="text-decoration: none">取消</a>
+            <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="confirm"
+               style="text-decoration: none">确定</a>
+        </div>
+    </div>
+</div>
+
+<div class="js_dialog" id="iosDialog2" style="display: none;">
+    <div class="weui-mask"></div>
+    <div class="weui-dialog">
+        <div class="weui-dialog__bd" id="alert-msg"></div>
+        <div class="weui-dialog__ft">
+            <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" id="alert-confirm"
+               style="text-decoration: none">确定</a>
+        </div>
+    </div>
+</div>
+
+<script src="../static/shadowsocks/js/jquery-3.1.1.min.js"></script>
+<script src="../static/shadowsocks/js/flexible.js"></script>
+<script src="../static/shadowsocks/js/index.min.js"></script>
+</body>
+</html>
